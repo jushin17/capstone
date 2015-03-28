@@ -2,12 +2,11 @@
 # chunjiin keyboard
 
 import sys
-import matplotlib as mpl
 from PyQt4 import QtCore, QtGui, uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from phone import PhoneAutomata
-
+from joystickRun import *
 
 formClass = uic.loadUiType("chunjiin.ui")[0]    
 p = PhoneAutomata(True, debug=False)
@@ -30,7 +29,8 @@ class MyWindowClass(QTableWidget, formClass):
 	self.btnEight.clicked.connect(self.btnEight_clicked)
 	self.btnNine.clicked.connect(self.btnNine_clicked)
 	self.btnZero.clicked.connect(self.btnZero_clicked)
-
+	print dir
+    
     def btnOne_clicked(self):
 	self.board('1')
 
