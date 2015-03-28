@@ -2,17 +2,24 @@
 # chunjiin keyboard
 
 import sys
+import matplotlib as mpl
 from PyQt4 import QtCore, QtGui, uic
-from getch import _Getch
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 from phone import PhoneAutomata
 
-form_class = uic.loadUiType("chunjiin.ui")[0]    
+
+formClass = uic.loadUiType("chunjiin2.ui")[0]    
 p = PhoneAutomata(True, debug=False)
 
-class MyWindowClass(QtGui.QMainWindow, form_class):
-    def __init__(self, parent=None):
-        QtGui.QMainWindow.__init__(self, parent)
+class MyWindowClass(QTableWidget, formClass):
+    def __init__(self, *args, **kwargs):
+        QTableWidget.__init__(self, *args, **kwargs)
         self.setupUi(self)
+	self.setStyleSheet("background-color: rgb(255, 255, 255);\n"+\
+                           "color: rgb(0, 0, 0);\n"+\
+                           "border:1px solid #7F462C ;\n")
+ 
 	self.btnOne.clicked.connect(self.btnOne_clicked)
 	self.btnTwo.clicked.connect(self.btnTwo_clicked)
 	self.btnThree.clicked.connect(self.btnThree_clicked)
@@ -23,43 +30,44 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
 	self.btnEight.clicked.connect(self.btnEight_clicked)
 	self.btnNine.clicked.connect(self.btnNine_clicked)
 	self.btnZero.clicked.connect(self.btnZero_clicked)
-	
+
     def btnOne_clicked(self):
-	self.keyboard('1')
+	self.board('1')
 
     def btnTwo_clicked(self):
-	self.keyboard('2')
+	self.board('2')
 
     def btnThree_clicked(self):
-	self.keyboard('3')
+	self.board('3')
 
     def btnFour_clicked(self):
-	self.keyboard('q')
+	self.board('q')
 
     def btnFive_clicked(self):
-	self.keyboard("w")
+	self.board("w")
 
     def btnSix_clicked(self):
-	self.keyboard("e")
+	self.board("e")
 
     def btnSeven_clicked(self):
-	self.keyboard("a")
+	self.board("a")
 
     def btnEight_clicked(self):
-	self.keyboard("s")
+	self.board("s")
 
     def btnNine_clicked(self):
-	self.keyboard("d")
+	self.board("d")
 
     def btnZero_clicked(self):
-	self.keyboard("x")
+	self.board("x")
 
-    def keyboard(self, c):
+    def btnZero_clicked(self):
+	self.board("x")
 
+    def board(self, c):
 	keypad = {'1':'1', '2':'2', '3':'3', '4':'4', '5':'5', '6':'6', 				'7':'7', '8':'8', '9':'9', '0':'0',
 		  'q':'4', 'w':'5', 'e':'6', 'a':'7', 's':'8', 'd':'9', 		'x':'0'}
 
-	getch = _Getch()
 	if c == "\x1b" or c == "\x03":
 		print "\nbye."
 	elif c == " ":
@@ -71,8 +79,13 @@ class MyWindowClass(QtGui.QMainWindow, form_class):
 		    p.feed(keypad[c])
 	self.inputText.setText("\r" + p.writer.dump() + " ",)
 
-
-app = QtGui.QApplication(sys.argv)
-myWindow = MyWindowClass(None)
-myWindow.show()
-app.exec_()
+if __name__ == '__main__':
+	app = QtGui.QApplication([])
+    	wd = QtGui.QMainWindow()
+    	wd.resize(500,400)
+    	mb = MyWindowClass()
+    	mb.setFixedSize(500,400)
+    	wd.setCentralWidget(mb)
+    	wd.show()
+    	sys.exit(app.exec_())
+	app.exec_()
