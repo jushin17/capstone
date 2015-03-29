@@ -5,12 +5,12 @@ import sys
 import uinput
 import spidev
 import time
-import joystickRun 
-import threading
 from PyQt4 import QtCore, QtGui, uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from phone import PhoneAutomata
+import joystickRun 
+import threading
 
 formClass = uic.loadUiType("chunjiin.ui")[0]    
 p = PhoneAutomata(True, debug=False)
