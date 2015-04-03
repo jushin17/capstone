@@ -31,6 +31,29 @@ class MyWindowClass(QTableWidget, formClass):
 	self.btnNine.clicked.connect(self.btnNine_clicked)
 	self.btnZero.clicked.connect(self.btnZero_clicked)
 
+    def _moveCursor(self, key):
+        row = self.currentRow()
+        col = self.currentColumn()
+
+        if key == Qt.Key_Left and col > 0:
+            col -= 1
+	    print col
+
+        elif key == Qt.Key_Right and col < self.columnCount():
+            col += 1
+
+        elif key == Qt.Key_Up and row > 0:
+            row -= 1
+
+        elif key == Qt.Key_Down and row < self.rowCount():
+            row += 1
+
+        else:
+            return
+
+        self.setCurrentCell(row, col)
+        self.edit(self.currentIndex())
+
     def btnOne_clicked(self):
 	self.board('1')
 
