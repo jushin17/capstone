@@ -9,7 +9,7 @@ from PyQt4.QtGui import *
 from phone import PhoneAutomata
 
 
-formClass = uic.loadUiType("chunjiin2.ui")[0]    
+formClass = uic.loadUiType("chunjiin.ui")[0]    
 p = PhoneAutomata(True, debug=False)
 
 class MyWindowClass(QTableWidget, formClass):
