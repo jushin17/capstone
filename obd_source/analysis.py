@@ -4,7 +4,7 @@ import dataGetModule
 
 class DataScore:
     datalist = {} #class member로 선언
-    score = {'speed': 0, 'turnsignal': 0, 'rain': 0, 'snow':0 ,'gear':0}
+    score = {'speed': 0, 'steering': 0, 'rain': 0, 'snow':0 ,'gear':0}
     def __init__(self, dataname):  #datalist 는 Dict형이다
         DataScore.datalist[dataname] = -1
         
@@ -90,17 +90,17 @@ class SnowScore(DataScore): #snow
             result = -1
         DataScore.score['snow'] = result
 
-class TurnSigScore(DataScore): #turnsignal
+class SteeringScore(DataScore): #turnsignal
     def __init__(self, dataname):
         DataScore.__init__(self, dataname)
     def calcScore(self):
-        turnsig = DataScore.datalist['turnsignal']
+        turnsig = DataScore.datalist['steering']
         result = 0
         if turnsig != 0:
             result = 100
         else:
             result = 0
-        DataScore.score['turnsignal'] = result
+        DataScore.score['steering'] = result
 
 def initAnalysis():
     global DataScoreList
@@ -108,14 +108,14 @@ def initAnalysis():
     DataScoreList.append(GearScore('gear'))
     DataScoreList.append(RainScore('rain'))
     DataScoreList.append(SnowScore('snow'))
-    DataScoreList.append(TurnSigScore('turnsignal'))
+    DataScoreList.append(SteeringScore('steering'))
     
     
 def AnalysisReq():
-    global ModuleList #이 리스트에는 각 획득 모듈의 객체가 저장되어있다.
-    for md in ModuleList:  #일단 각각의 획득 모듈로 부터 분석에 필요한 데이터를 모두 획득해온다
-        if ModuleList[md].isChanged() == True:
-            moduledatalist = ModuleList[md].getDataList() #각 모듈의 바뀐 데이타를 얻어옴. 각 요소는 key:값으로..
+    global DataGetList #이 리스트에는 각 획득 모듈의 객체가 저장되어있다.
+    for md in DataGetList:  #일단 각각의 획득 모듈로 부터 분석에 필요한 데이터를 모두 획득해온다
+        if DataGetList[md].isChanged() == True:
+            moduledatalist = DataGetList[md].getSensorList() #각 모듈의 바뀐 데이타를 얻어옴. 각 요소는 key:값으로..
             for mdl in moduledatalist: #key를 통해 각 요소의 값에 접근하여 이쪽 list에 update
                 DataScore.datalist[mdl] = moduledatalist[mdl] #data를 업데이트 한다
                 #DataScore.datalist 또한 사전형이기 때문에 만약 처음 보는 data가 들어와도 알아서 추가하고 업데이트 한다
@@ -128,8 +128,7 @@ def AnalysisReq():
     #print DataScore.score, 'score'
     return
 
-
-ModuleList = None
+DataGetList = None
 DataScoreList = []
 initAnalysis()
     
