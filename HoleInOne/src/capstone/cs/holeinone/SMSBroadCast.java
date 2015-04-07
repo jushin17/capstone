@@ -1,6 +1,9 @@
 package capstone.cs.holeinone;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -11,8 +14,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
+import android.widget.Toast;
 
 public class SMSBroadCast extends BroadcastReceiver {
 
@@ -43,6 +48,7 @@ public class SMSBroadCast extends BroadcastReceiver {
     		
     		String originDate = mDateFormat.format(curDate);
     		String origNumber = smsMessage[0].getOriginatingAddress();
+    		
     		 //발신번호를 연락처에 저장된 이름으로 변경
             Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origNumber));
             String[] projection = new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME};
@@ -59,6 +65,10 @@ public class SMSBroadCast extends BroadcastReceiver {
             
     		String Message = smsMessage[0].getMessageBody().toString();
     		
+    		
+    		saveFile(Message);
+    		
+    		
     		Intent showSMSIntent = new Intent(mContext, ShowSMSActivity.class);
     		showSMSIntent.putExtra("originNum", displayName);
     		showSMSIntent.putExtra("smsDate", originDate);
@@ -68,5 +78,29 @@ public class SMSBroadCast extends BroadcastReceiver {
     		
     		mContext.startActivity(showSMSIntent);
     	}
+    }
+    
+    /**
+	 * 수신된 메시지를 단말기에 저장합니다
+	 */
+    public void saveFile(String message){
+    	
+		 File file;
+         String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Download/";
+         file = new File(path+"output.txt");
+         
+         FileOutputStream fos = null;
+         try{
+        	 
+         	fos = new FileOutputStream(file);
+         	fos.write((message).getBytes());
+         	fos.close();
+         	
+         	
+         }catch(IOException e){
+         	e.printStackTrace();
+         }
+         
+         
     }
 }
