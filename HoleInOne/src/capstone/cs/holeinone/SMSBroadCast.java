@@ -44,13 +44,16 @@ public class SMSBroadCast extends BroadcastReceiver {
     		 * 날짜 형식을 우리나라에 맞도록 변환합니다
     		 */
     		Date curDate = new Date(smsMessage[0].getTimestampMillis());
-    		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초", Locale.KOREA);
+    		SimpleDateFormat mDateFormat = new SimpleDateFormat(
+    				"yyyy년 MM월 dd일 HH시 mm분 ss초",Locale.KOREA);
     		
     		String originDate = mDateFormat.format(curDate);
     		String origNumber = smsMessage[0].getOriginatingAddress();
+    		//String Message = smsMessage[0].getMessageBody().toString();
     		
     		 //발신번호를 연락처에 저장된 이름으로 변경
-            Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origNumber));
+            Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, 
+            		Uri.encode(origNumber));
             String[] projection = new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME};
             String displayName = "";
                       

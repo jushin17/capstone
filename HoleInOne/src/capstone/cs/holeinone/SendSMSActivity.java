@@ -6,7 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.EditText;
@@ -39,8 +42,10 @@ public class SendSMSActivity extends Activity{
     }
     //sms 전송
     public void sendSMS(String smsNumber, String smsText){
-        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_SENT_ACTION"), 0);
-        PendingIntent deliveredIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_DELIVERED_ACTION"), 0);
+        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0,
+        		new Intent("SMS_SENT_ACTION"), 0);
+        PendingIntent deliveredIntent = PendingIntent.getBroadcast(this, 0,
+        		new Intent("SMS_DELIVERED_ACTION"), 0);
         
         /**
          * SMS가 발송될때 실행
@@ -94,7 +99,7 @@ public class SendSMSActivity extends Activity{
             }
         }, new IntentFilter("SMS_DELIVERED_ACTION"));
         
-        SmsManager mSmsManager = SmsManager.getDefault();
+      SmsManager mSmsManager = SmsManager.getDefault();
         mSmsManager.sendTextMessage(smsNumber, null, smsText, sentIntent, deliveredIntent);
     }
 
