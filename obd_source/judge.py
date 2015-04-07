@@ -6,17 +6,17 @@ class SumScore:
 
     @staticmethod   
     def calculData():
-        self.scoreSum=0
-        for dt in analysis.DataScore.score
-            self.scoreSum += analysis.DataScore.score[dt]
+        SumScore.scoreSum=0
+        for dt in analysis.DataScore.score:
+            SumScore.scoreSum += analysis.DataScore.score[dt]
 
     @staticmethod
-    def jugement(self):
-        if 0 <= self.scoreSum <= 59:
+    def jugement():
+        if 0 <= SumScore.scoreSum <= 59:
             SumScore.level = 1
-        elif 60 <= self.scoreSum <= 79:
+        elif 60 <= SumScore.scoreSum <= 79:
             SumScore.level = 2
-        elif 79 <= self.scoreSum:
+        elif 79 <= SumScore.scoreSum:
             SumScore.level = 3
         else:
             return -1

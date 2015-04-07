@@ -1,11 +1,9 @@
 import json
-import analyis
-
 
 class ReadJson:
     def read(self):
         with open('test.json') as f:
-        for line in f:
+        #for line in f:
             test = json.loads(line)
             if(test['name']=='vehicle_speed'):
                 DataScore.dataScore['speed']=test['value']
