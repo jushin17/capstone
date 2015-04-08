@@ -17,7 +17,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import android.widget.Toast;
+
 
 public class SMSBroadCast extends BroadcastReceiver {
 
@@ -26,34 +28,28 @@ public class SMSBroadCast extends BroadcastReceiver {
     	String action =  intent.getAction();
     	
     	if("android.provider.Telephony.SMS_RECEIVED".equals(action)){
-    		/**
-    		 * SMS메세지 파싱
-    		 */
+    		  //메시지 파싱		
+    		Log.d("onReceive()","문자가 수신되었습니다!");
+ 
     		Bundle bundle = intent.getExtras();
     		Object messages[] = (Object[])bundle.get("pdus");
     		SmsMessage smsMessage[] = new SmsMessage[messages.length];
 
-    		for(int i = 0; i < messages.length; i++) {
-    		    /**
-    		     * PDU포멧의 SMS를 변환합니다
-    		     */
+    		for(int i = 0; i < messages.length; i++) { //PDU포맷 형식의 메시지를 복원
     		    smsMessage[i] = SmsMessage.createFromPdu((byte[])messages[i]);
     		}
     		
-    		/**
-    		 * 날짜 형식을 우리나라에 맞도록 변환합니다
-    		 */
-    		Date curDate = new Date(smsMessage[0].getTimestampMillis());
+    		Date curDate = new Date(smsMessage[0].getTimestampMillis());  	
+    		Log.d("문자 수신 시간", curDate.toString());
+    		
     		SimpleDateFormat mDateFormat = new SimpleDateFormat(
     				"yyyy년 MM월 dd일 HH시 mm분 ss초",Locale.KOREA);
-    		
     		String originDate = mDateFormat.format(curDate);
+    		
     		String origNumber = smsMessage[0].getOriginatingAddress();
-    		//String Message = smsMessage[0].getMessageBody().toString();
     		
     		 //발신번호를 연락처에 저장된 이름으로 변경
-            Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, 
-            		Uri.encode(origNumber));
+            Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(origNumber));
             String[] projection = new String[] {ContactsContract.PhoneLookup.DISPLAY_NAME};
             String displayName = "";
                       
@@ -67,6 +63,7 @@ public class SMSBroadCast extends BroadcastReceiver {
             }
             
     		String Message = smsMessage[0].getMessageBody().toString();
+    		Log.d("문자 내용", "발신자 : "+origNumber+", 내용 : "+Message);
     		
     		
     		saveFile(Message);
@@ -106,4 +103,5 @@ public class SMSBroadCast extends BroadcastReceiver {
          
          
     }
+
 }

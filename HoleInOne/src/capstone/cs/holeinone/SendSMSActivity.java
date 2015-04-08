@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -42,10 +43,8 @@ public class SendSMSActivity extends Activity{
     }
     //sms 전송
     public void sendSMS(String smsNumber, String smsText){
-        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0,
-        		new Intent("SMS_SENT_ACTION"), 0);
-        PendingIntent deliveredIntent = PendingIntent.getBroadcast(this, 0,
-        		new Intent("SMS_DELIVERED_ACTION"), 0);
+        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_SENT_ACTION"), 0);
+        PendingIntent deliveredIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_DELIVERED_ACTION"), 0);
         
         /**
          * SMS가 발송될때 실행
@@ -54,10 +53,13 @@ public class SendSMSActivity extends Activity{
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+            	           	
+            	
                 switch(getResultCode()){
                     case Activity.RESULT_OK:
                         // 전송 성공
                         Toast.makeText(mContext, "전송 완료", Toast.LENGTH_SHORT).show();
+                        
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         // 전송 실패
@@ -98,9 +100,11 @@ public class SendSMSActivity extends Activity{
                 }
             }
         }, new IntentFilter("SMS_DELIVERED_ACTION"));
+      
         
       SmsManager mSmsManager = SmsManager.getDefault();
-        mSmsManager.sendTextMessage(smsNumber, null, smsText, sentIntent, deliveredIntent);
+      mSmsManager.sendTextMessage(smsNumber, null, smsText, sentIntent, deliveredIntent);
+
     }
 
 }
