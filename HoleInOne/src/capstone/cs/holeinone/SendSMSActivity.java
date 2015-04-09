@@ -41,25 +41,25 @@ public class SendSMSActivity extends Activity{
             Toast.makeText(this, "모두 입력해 주세요", Toast.LENGTH_SHORT).show();
         }
     }
-    //sms 전송
+    
+
     public void sendSMS(String smsNumber, String smsText){
-        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_SENT_ACTION"), 0);
-        PendingIntent deliveredIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_DELIVERED_ACTION"), 0);
+ 
+    	PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_SENT_ACTION"), 0); //SMS 전송 성공 여부를 알기 위해 등록, 결과 확인
+        PendingIntent deliveredIntent = PendingIntent.getBroadcast(this, 0, new Intent("SMS_DELIVERED_ACTION"), 0); //문자 도착 결과 확인
         
-        /**
-         * SMS가 발송될때 실행
-         * When the SMS massage has been sent
-         */
-        registerReceiver(new BroadcastReceiver() {
-            @Override
+       //SMS 전송시
+        registerReceiver(new BroadcastReceiver() { //BroadcastReceiver를 통해 결과 확인
+            
+        	//CallBack method, 상대방이 메시지를 실제로 수신했는지 파악
+        	//통신망으로부터 상대방 단말기가 메시지를 받았다는 확인 통지를 받은 시점에서 호출
+        	@Override
             public void onReceive(Context context, Intent intent) {
-            	           	
-            	
+            	           	            	
                 switch(getResultCode()){
                     case Activity.RESULT_OK:
                         // 전송 성공
                         Toast.makeText(mContext, "전송 완료", Toast.LENGTH_SHORT).show();
-                        
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         // 전송 실패
@@ -81,10 +81,8 @@ public class SendSMSActivity extends Activity{
             }
         }, new IntentFilter("SMS_SENT_ACTION"));
         
-        /**
-         * SMS가 도착했을때 실행
-         * When the SMS massage has been delivered
-         */
+        
+        //SMS 도착시
         registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -103,7 +101,7 @@ public class SendSMSActivity extends Activity{
       
         
       SmsManager mSmsManager = SmsManager.getDefault();
-      mSmsManager.sendTextMessage(smsNumber, null, smsText, sentIntent, deliveredIntent);
+      mSmsManager.sendTextMessage(smsNumber, null, smsText, sentIntent, deliveredIntent); //SMS 전송
 
     }
 
