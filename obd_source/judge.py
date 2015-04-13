@@ -1,23 +1,20 @@
-import analysis
+from DataStore import CDataStore
 
 class SumScore:
-    scoreSum = 0
-    level = 1
-
     @staticmethod   
     def calculData():
-        SumScore.scoreSum=0
-        for dt in analysis.DataScore.score:
-            SumScore.scoreSum += analysis.DataScore.score[dt]
+        CDataStore.ScoreSum=0
+        for dt in CDataStore.ScoreData:
+            CDataStore.ScoreSum += CDataStore.ScoreData[dt]
 
     @staticmethod
     def jugement():
-        if 0 <= SumScore.scoreSum <= 59:
-            SumScore.level = 1
-        elif 60 <= SumScore.scoreSum <= 79:
-            SumScore.level = 2
-        elif 79 <= SumScore.scoreSum:
-            SumScore.level = 3
+        if 0 <= CDataStore.ScoreSum <= 59:
+            CDataStore.Level = 1
+        elif 60 <= CDataStore.ScoreSum <= 79:
+            CDataStore.Level = 2
+        elif 79 <= CDataStore.ScoreSum:
+            CDataStore.Level = 3
         else:
             return -1
         return 0
