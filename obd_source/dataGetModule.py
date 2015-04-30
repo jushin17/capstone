@@ -1,7 +1,6 @@
 # -*- coding: cp949 -*-
 import time
 import threading
-import requestAuth
 import requests
 from time import *
 import json
@@ -10,6 +9,18 @@ from DataStore import CDataStore
 import programOption
 
 gpsd = None
+
+class appAuth(AuthBase):
+    """Attaches HTTP Authentication to the given Request object."""
+    #requset 요청 객체에 appkey를 추가
+    def __init__(self, username):
+        # setup any auth-related data here
+        self.username = username
+
+    def __call__(self, r):
+        # modify and return the request
+        r.headers['appKey'] = self.username
+        return r
 
 class CGetData(threading.Thread):
     def __init__(self):
