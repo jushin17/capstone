@@ -52,5 +52,14 @@
         android:layout_marginTop="40dp"
         android:text="NEXT"
         android:textStyle="bold" />
+    <Button
+        android:id="@+id/blue_button"
+        style="?android:attr/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:text="B"
+        android:textStyle="bold" />
 
 </LinearLayout>
