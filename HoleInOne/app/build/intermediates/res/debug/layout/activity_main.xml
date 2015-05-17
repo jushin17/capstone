@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="#fDDCAA">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="110dp"
+        android:text="[원하는 기능을 선택하세요]"
+        android:textStyle="bold"
+        android:textSize="30sp"/>
+
+    <CheckBox
+        android:id="@+id/kakao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="32dp"
+        android:text="카카오톡" 
+        android:textSize="26sp"/>
+
+    <CheckBox
+        android:id="@+id/sms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="25dp"
+        android:text="문자메세지"
+        android:textSize="26sp" />
+
+    <CheckBox
+        android:id="@+id/music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="25dp"
+        android:text="음악재생목록"
+        android:textSize="26sp" />
+
+    <Button
+        android:id="@+id/next_button"
+        style="?android:attr/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:text="NEXT"
+        android:textStyle="bold" />
+    <Button
+        android:id="@+id/blue_button"
+        style="?android:attr/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:text="B"
+        android:textStyle="bold" />
+
+</LinearLayout><!-- From: file:/Users/shinjiung/capstone/HoleInOne/app/src/main/res/layout/activity_main.xml -->
