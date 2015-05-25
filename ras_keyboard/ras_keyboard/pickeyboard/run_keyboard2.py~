@@ -1,0 +1,149 @@
+import sys
+import os
+import utils
+
+from PyQt4 import QtGui,QtCore
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+
+class SlideShowPics(QtGui.QMainWindow):
+
+	# SlideShowPics class defines the methods for UI and working logic
+	def __init__(self, imgLstC, imgLstV, parent=None):
+		super(SlideShowPics, self).__init__(parent)
+		# self._path = path	
+		self.st = True #st=True -> consonant, st=1 -> vowel		
+		self._imagesInListC = imgLstC
+		self._imagesInListV = imgLstV
+		self.mFlag = True #different main screen(consonant, vowel) and second screen(detail con,vo)
+		self.prepairWindow()
+		self.buildUi()
+		self.changImg()
+		self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+		
+	def prepairWindow(self):
+		# Centre UI		
+		screen = QtGui.QDesktopWidget().screenGeometry(self)
+		size = self.geometry()
+		
+		self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+		self.setStyleSheet("QWidget{background-color: WHITE;}")
+		self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) #the main window will stay always on top of the other apps.
+		self.showFullScreen()
+		self.buildUi()
+
+	def buildUi(self):
+		self.le = QLineEdit()
+		self.le.setObjectName("inputText")		
+		self.le.setReadOnly(True)
+		self.le.setTextMargins (15, 15, 15, 15)
+		self.setMenuWidget(self.le)
+
+		self.label = QtGui.QLabel()
+		self.label.setAlignment(QtCore.Qt.AlignCenter)
+		self.setCentralWidget(self.label)
+
+	def changImg(self):
+		# switch to next image or previous image
+		if self.st == True:
+			self.mFlag=True
+			self.showImageByPath(
+					self._imagesInListC[1])
+
+		if self.st == False:
+			self.mFlag=True
+			self.showImageByPath(
+					self._imagesInListV[2])
+
+	def showImageByPath(self, path):
+		image = QtGui.QImage(path)
+		pp = QtGui.QPixmap.fromImage(image)
+		self.label.setPixmap(pp.scaled(
+				self.label.size(),
+				QtCore.Qt.KeepAspectRatio,
+				QtCore.Qt.SmoothTransformation))
+
+	def keyPressEvent(self, keyevent):
+		# Capture key to exit, next image, previous image, on Escape , Key Right and key left respectively.
+		event = keyevent.key()
+		if event == QtCore.Qt.Key_Escape:
+			self.close()
+
+		if self.mFlag==True and event == QtCore.Qt.Key_Q:
+			self.mFlag=False
+			self.showImageByPath(self._imagesInListC[5]) if self.st else self.showImageByPath(self._imagesInListV[4])
+			
+		if self.mFlag==True and event == QtCore.Qt.Key_W:
+			self.mFlag=False
+			if self.st == True:
+				self.showImageByPath(self._imagesInListC[4])
+			if self.st == False:
+				self.showImageByPath(self._imagesInListV[1])
+
+		if self.mFlag==True and event == QtCore.Qt.Key_E:
+			self.mFlag=False
+			if self.st == True:
+				self.showImageByPath(self._imagesInListC[3])
+			if self.st == False:
+				self.showImageByPath(self._imagesInListV[0])
+
+		if self.mFlag==True and event == QtCore.Qt.Key_A:
+			self.mFlag=False
+			if self.st == True:
+				self.showImageByPath(self._imagesInListC[2])
+			if self.st == False:
+				self.showImageByPath(self._imagesInListV[3])
+
+		if self.mFlag==True and event == QtCore.Qt.Key_D:
+			self.mFlag=False
+			if self.st == True:
+				self.showImageByPath(self._imagesInListC[7])
+			if self.st == False:
+				self.showImageByPath(self._imagesInListV[7])
+
+		if self.mFlag==True and event == QtCore.Qt.Key_Z:
+			self.mFlag=False
+			if self.st == True:
+				self.showImageByPath(self._imagesInListC[6])
+			if self.st == False:
+				self.showImageByPath(self._imagesInListV[6])
+
+		if self.mFlag==True and event == QtCore.Qt.Key_C:
+			self.mFlag=False
+			if self.st == True:
+				self.showImageByPath(self._imagesInListC[0])
+			if self.st == False:
+				self.showImageByPath(self._imagesInListV[5])
+
+		if self.mFlag==True and event == QtCore.Qt.Key_X:#this state-main screen and click down
+			self.mFlag=False
+			if self.st==0:
+				self.st=1
+			else:
+				self.st=0
+			self.changImg()
+		elif self.mFlag==False and event == QtCore.Qt.Key_X:
+			self.changImg()
+
+def main(pathc, pathv):
+	if isinstance(pathc, list):
+		imgLstC = utils.imageFilePaths(pathc)
+	elif isinstance(pathc, str):
+		imgLstC =  utils.imageFilePaths([pathc])
+
+	if isinstance(pathv, list):
+		imgLstV = utils.imageFilePaths(pathv)
+	elif isinstance(pathv, str):
+		imgLstV =  utils.imageFilePaths([pathv])
+
+	app = QtGui.QApplication(sys.argv)
+
+	window = SlideShowPics(imgLstC, imgLstV)
+	window.show()
+	window.raise_()
+	app.exec_()
+
+if __name__ == '__main__':
+	pathV = 'image/vowel'
+	pathC = 'image/consonant'
+	main(pathC, pathV)
