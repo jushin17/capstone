@@ -1,0 +1,13 @@
+import pygame
+
+def audioplay(filename):
+	pygame.mixer.init(44100)
+	pygame.mixer.music.set_volume(10)
+	pygame.mixer.music.load("sound/" + filename)
+	pygame.mixer.music.play()
+	
+	while pygame.mixer.music.get_busy() == True:
+		continue
+	
+	pygame.mixer.quit()
+

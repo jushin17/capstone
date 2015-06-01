@@ -1,0 +1,40 @@
+from DataStore import CDataStore
+
+cnt = 0
+
+class SumScore:
+    @staticmethod   
+    def calculData():
+        global cnt
+        #CDataStore.ScoreSum=0
+        print 'cnt : ', cnt
+        cnt = cnt +1
+        #for k in CDataStore.SensorData:
+        #    print k, ' : ', CDataStore.SensorData[k], ' ',
+        #print '\n'
+        #for p in CDataStore.ScoreData:
+        #    print p, ' : ', CDataStore.ScoreData[p], ' ',
+        #print '\n'
+        
+        for dt in CDataStore.ScoreData:
+            CDataStore.ScoreSum += CDataStore.ScoreData[dt]
+
+        print "CDataStore.ScoreSum : ", CDataStore.ScoreSum
+
+    @staticmethod
+    def jugement():
+        if 0 <= CDataStore.ScoreSum <= 59:
+            CDataStore.Level = 1
+        elif 60 <= CDataStore.ScoreSum <= 79:
+            CDataStore.Level = 2
+        elif 79 <= CDataStore.ScoreSum:
+            CDataStore.Level = 3
+        else:
+            return -1
+        return 0
+
+
+
+
+
+
